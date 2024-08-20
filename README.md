@@ -8,6 +8,7 @@ To install the package, use npm or yarn:
 
 ```bash
 npm install react-native-flip-coin
+```
 
 ## Props
 
