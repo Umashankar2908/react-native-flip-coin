@@ -204,6 +204,8 @@ export const FlipCoin = forwardRef<FlipCoinRef, FlipCoinProps>(
   },
 );
 
+console.log('');
+
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
