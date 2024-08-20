@@ -10,6 +10,10 @@ To install the package, use npm or yarn:
 npm install react-native-flip-coin
 ```
 
+## Demo
+
+![](coinFlip.gif)
+
 ## Props
 
 

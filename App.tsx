@@ -4,8 +4,8 @@ import {FlipCoinRef} from './src/utils/interfaces';
 
 function App(): React.JSX.Element {
   const teams = [
-    {label: 'CSK', value: '23131'},
-    {label: 'RCB', value: '213131'},
+    {label: 'India', value: 'india'},
+    {label: 'Pakistan', value: 'pak'},
   ];
 
   const ref = useRef<FlipCoinRef>(null);
@@ -15,6 +15,7 @@ function App(): React.JSX.Element {
       options={teams}
       onTossComplete={winner => console.log({winner})}
       ref={ref}
+      containerStyle={{marginTop: 200}}
     />
   );
 }
