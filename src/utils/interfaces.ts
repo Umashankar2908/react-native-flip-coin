@@ -1,14 +1,14 @@
 import {ReactNode} from 'react';
 import {ViewStyle} from 'react-native';
 
-export interface FlipCoinTeamProps {
+export interface OptionsProps {
   label: string;
   value: string;
 }
 
 export interface FlipCoinProps {
-  teamOptions: FlipCoinTeamProps[];
-  onTossComplete?: (winner: FlipCoinTeamProps) => void;
+  options: OptionsProps[];
+  onTossComplete?: (winner: OptionsProps) => void;
   animationDuration?: number;
   flipCount?: number;
   customHeads?: ReactNode;

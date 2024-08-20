@@ -13,17 +13,17 @@ npm install react-native-flip-coin
 ## Props
 
 
-| Prop                | Type                             | Default  | Description                                                                                       |
-|---------------------|----------------------------------|----------|---------------------------------------------------------------------------------------------------|
-| `teamOptions`       | `FlipCoinTeamProps[]`             | Required | An array of two options for the coin flip, each with a `label` and `value`.                      |
-| `onTossComplete`    | `(winner: FlipCoinTeamProps) => void` | `undefined` | Callback function triggered when the coin flip is complete, returning the winning option.        |
-| `animationDuration` | `number`                         | `400`    | Duration of each flip animation in milliseconds.                                                  |
-| `flipCount`         | `number`                         | `5`      | Number of flips the coin performs during the animation.                                           |
-| `customHeads`       | `ReactNode`                      | `undefined` | Custom component for the heads side of the coin.                                                  |
-| `customTails`       | `ReactNode`                      | `undefined` | Custom component for the tails side of the coin.                                                  |
-| `containerStyle`    | `ViewStyle`                      | `{}`     | Style for the container wrapping the coin.                                                        |
-| `coinStyle`         | `ViewStyle`                      | `{}`     | Style for the coin itself.                                                                        |
-| `disableOnPressCoin`| `boolean`                        | `false`  | If `true`, disables the coin flip when the coin is pressed.                                       |
-| `headsTextStyle`    | `ViewStyle`                      | `{}`     | Style for the text on the heads side.                                                             |
-| `tailsTextStyle`    | `ViewStyle`                      | `{}`     | Style for the text on the tails side.                                                             |
-
+| Prop                | Type                    | Default       | Description                                                                                                                                                             |
+|---------------------|-------------------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `options`           | `OptionsProps[]`        | -             | Array of options for the coin sides, where each option has a `label` and `value`.                                                                                   |
+| `onTossComplete`    | `(winner: OptionsProps) => void` | -             | Callback function invoked when the coin flip is completed, providing the winner as an argument.                                                                       |
+| `animationDuration` | `number`                | `400`         | Duration of each flip animation in milliseconds.                                                                                                                        |
+| `flipCount`         | `number`                | `5`           | Number of times the coin should flip before stopping.                                                                                                                     |
+| `customHeads`       | `ReactNode`             | -             | Custom content to be displayed when the coin shows heads.                                                                                                                |
+| `customTails`       | `ReactNode`             | -             | Custom content to be displayed when the coin shows tails.                                                                                                                |
+| `containerStyle`    | `ViewStyle`             | `{}`          | Custom style for the container view.                                                                                                                                     |
+| `coinStyle`         | `ViewStyle`             | `{}`          | Custom style for the coin view.                                                                                                                                           |
+| `disableOnPressCoin`| `boolean`               | `false`       | Whether to disable the coin flip when the coin is pressed.                                                                                                               |
+| `headsTextStyle`    | `TextStyle`             | `{}`          | Custom style for the text displayed on heads.                                                                                                                             |
+| `tailsTextStyle`    | `TextStyle`             | `{}`          | Custom style for the text displayed on tails.                                                                                                                             |
+| `direction`         | `'clockwise' \| 'counterclockwise'` | `'clockwise'` | Direction in which the coin should rotate. Options are `"clockwise"` or `"counterclockwise"`.                                                                           |

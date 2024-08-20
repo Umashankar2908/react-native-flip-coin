@@ -16,15 +16,16 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {ConditionalRender} from './ConditionalRender';
 
-interface FlipCoinTeamProps {
+interface OptionsProps {
   label: string;
   value: string;
 }
 
 interface FlipCoinProps {
-  teamOptions: FlipCoinTeamProps[];
-  onTossComplete?: (winner: FlipCoinTeamProps) => void;
+  options: OptionsProps[];
+  onTossComplete?: (winner: OptionsProps) => void;
   animationDuration?: number;
   flipCount?: number;
   customHeads?: ReactNode;
@@ -34,16 +35,17 @@ interface FlipCoinProps {
   disableOnPressCoin?: boolean;
   headsTextStyle?: ViewStyle;
   tailsTextStyle?: ViewStyle;
+  direction?: 'clockwise' | 'counterclockwise';
 }
 
-export interface FlipCoinRef {
+interface FlipCoinRef {
   flipCoin: () => void;
 }
 
 export const FlipCoin = forwardRef<FlipCoinRef, FlipCoinProps>(
   (
     {
-      teamOptions,
+      options,
       onTossComplete,
       animationDuration = 400,
       flipCount = 5,
@@ -54,24 +56,34 @@ export const FlipCoin = forwardRef<FlipCoinRef, FlipCoinProps>(
       disableOnPressCoin = false,
       headsTextStyle = {},
       tailsTextStyle = {},
+      direction = 'clockwise',
     },
     ref,
   ) => {
     const animatedValue = useRef(new Animated.Value(0)).current;
-    const [side, setSide] = useState<string | undefined>(teamOptions[0].label);
+    const [side, setSide] = useState<string | undefined>();
+    const [customSide, setCustomSide] = useState<ReactNode>();
+
     const timeout = useRef<any>();
 
     const flipCoinHandler = useCallback(() => {
       // Reset the animation value
       animatedValue.setValue(0);
       setSide(undefined);
+      setCustomSide(undefined);
 
       clearTimeout(timeout.current);
 
       timeout.current = setTimeout(() => {
-        const isheadsOpacity = Math.random() < 0.5;
-        const winner = isheadsOpacity ? teamOptions[0] : teamOptions[1];
-        setSide(winner.label);
+        const isHeads = Math.random() < 0.5;
+        const winner = isHeads ? options[0] : options[1];
+        if (customHeads && isHeads) {
+          setCustomSide(customHeads);
+        } else if (customTails && !isHeads) {
+          setCustomSide(customTails);
+        } else {
+          setSide(winner.label);
+        }
         onTossComplete?.(winner);
       }, animationDuration * flipCount);
 
@@ -88,15 +100,20 @@ export const FlipCoin = forwardRef<FlipCoinRef, FlipCoinProps>(
     }, [
       animatedValue,
       animationDuration,
-      onTossComplete,
       flipCount,
-      teamOptions,
+      options,
+      customHeads,
+      customTails,
+      onTossComplete,
     ]);
 
     // Interpolate the animation value to rotate the coin
     const rotateY = animatedValue.interpolate({
       inputRange: [0, 0.25, 0.5, 0.75, 1],
-      outputRange: ['0deg', '90deg', '180deg', '270deg', '360deg'],
+      outputRange:
+        direction === 'clockwise'
+          ? ['0deg', '90deg', '180deg', '270deg', '360deg']
+          : ['0deg', '-90deg', '-180deg', '-270deg', '-360deg'],
     });
 
     const headsOpacity = animatedValue.interpolate({
@@ -133,20 +150,53 @@ export const FlipCoin = forwardRef<FlipCoinRef, FlipCoinProps>(
                 flipCoinHandler();
               }
             }}>
-            <Animated.View style={{opacity: headsOpacity}}>
-              {customHeads ?? (
-                <Text style={{...styles.headsTextStyle, ...headsTextStyle}}>
-                  {side ?? teamOptions[0].label}
-                </Text>
-              )}
-            </Animated.View>
-            <Animated.View style={{opacity: tailsOpacity}}>
-              {customTails ?? (
-                <Text style={{...styles.tailTextStyle, ...tailsTextStyle}}>
-                  {teamOptions[1].label}
-                </Text>
-              )}
-            </Animated.View>
+            <ConditionalRender
+              condition={!!customSide || !!side}
+              ifTrue={
+                <ConditionalRender
+                  condition={!!customSide}
+                  ifTrue={customSide}
+                  ifFalse={
+                    <Text
+                      style={{
+                        ...styles.headsTextStyle,
+                        ...headsTextStyle,
+                        ...tailsTextStyle,
+                      }}>
+                      {side}
+                    </Text>
+                  }
+                />
+              }
+              ifFalse={
+                <React.Fragment>
+                  <Animated.View
+                    style={{
+                      opacity: headsOpacity,
+                      ...styles.animatedHeadStyle,
+                    }}>
+                    {customHeads ?? (
+                      <Text
+                        style={{...styles.headsTextStyle, ...headsTextStyle}}>
+                        {options[0].label}
+                      </Text>
+                    )}
+                  </Animated.View>
+                  <Animated.View
+                    style={{
+                      opacity: tailsOpacity,
+                      ...styles.animatedTailStyle,
+                    }}>
+                    {customTails ?? (
+                      <Text
+                        style={{...styles.tailTextStyle, ...tailsTextStyle}}>
+                        {options[1].label}
+                      </Text>
+                    )}
+                  </Animated.View>
+                </React.Fragment>
+              }
+            />
           </Pressable>
         </Animated.View>
       </View>
@@ -173,7 +223,12 @@ const styles = StyleSheet.create({
   tailTextStyle: {
     fontSize: 25,
     fontWeight: 'bold',
+  },
+  animatedHeadStyle: {
+    position: 'absolute',
+  },
+  animatedTailStyle: {
+    position: 'absolute',
     transform: [{rotateY: '180deg'}],
-    marginTop: -30,
   },
 });

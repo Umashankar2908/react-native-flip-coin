@@ -12,7 +12,7 @@ function App(): React.JSX.Element {
 
   return (
     <FlipCoin
-      teamOptions={teams}
+      options={teams}
       onTossComplete={winner => console.log({winner})}
       ref={ref}
     />
