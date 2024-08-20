@@ -12,7 +12,7 @@ npm install react-native-flip-coin
 
 ## Demo
 
-<img src="coinflip.gif" width="250" height="500"/>
+<img src="coinFlip.gif" width="250" height="500" alt="Coin Flip Demo"/>
 
 ## Props
 
