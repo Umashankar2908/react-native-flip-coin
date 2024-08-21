@@ -10,6 +10,7 @@ To install the package, use npm or yarn:
 npm install react-native-flip-coin
 ```
 
+
 ## Demo
 
 <img src="coinFlip.gif" width="250" height="500" alt="Coin Flip Demo"/>
@@ -31,3 +32,12 @@ npm install react-native-flip-coin
 | `headsTextStyle`    | `TextStyle`             | `{}`          | Custom style for the text displayed on heads.                                                                                                                             |
 | `tailsTextStyle`    | `TextStyle`             | `{}`          | Custom style for the text displayed on tails.                                                                                                                             |
 | `direction`         | `'clockwise' \| 'counterclockwise'` | `'clockwise'` | Direction in which the coin should rotate. Options are `"clockwise"` or `"counterclockwise"`.                                                                           |
+
+
+## Method Usage
+
+### `flipCoin()` 
+To call the flipCoin method on the FlipCoin component, you need to create a reference to the component using the useRef hook in React. This reference allows you to access and trigger the flipCoin method from outside the component, such as in response to a button press or any other event in your application.
+
+
+<img src="methodUsage.png" width="500" height="500" alt="Coin Flip Demo"/>
